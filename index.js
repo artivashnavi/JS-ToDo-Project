@@ -1,108 +1,142 @@
-function addCard(){//onclick  plus icon function we get pop card
-    let cardFirst = document.getElementById("card1");
-    const parentElement = document.getElementById("firstparent");
-    cardFirst.style.display = "block";
-    parentElement.style.filter = "blur(11px)";
-   
- }
-// ################################################################
-// ################################################################
+// Get the modal
+var modal = document.getElementById("toDoModelBoard");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
 
 
-const tasklist=[];
-const addTask=function(){
-    const name=document.getElementById("name").value 
-    console.log(name);
-    const tempObj={
-        id:Date.now(),
-        taskName:name
+// Get the modal
+var modalTask = document.getElementById("toDoModelTask");
+
+
+
+function closeModel(id){
+    document.getElementById(id).style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+
+window.onclick = function(event) {
+  if (event.target == modalTask) {
+    modalTask.style.display = "none";
+  }
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+var taskOBJ = null;
+
+
+function removeBoard(obj){
+    var board = obj.closest(".board");
+        board.remove();
+
+}
+function addNewTaskModalButton(){
+    addNewTask(taskOBJ);
+    // taskOBJ = null;
+    modalTask.style.display = "none";
+}
+function showTaskModal(obj){
+    taskOBJ = obj;
+    modalTask.style.display = "block";
+}
+function showTaskModalOnly(){
+    modalTask.style.display = "block";
+
+}
+function addNewTask(obj){
+    var markButtone = document.createElement("button");
+    markButtone.setAttribute("class", "markAsDone");
+    markButtone.innerHTML = 'Mark as done';
+    markButtone.addEventListener('click', function handleClick(event) {
+        console.log('element clicked bttone', event);
+        markAsDoneFN(this)
+      });
+
+    // markButtone.onclick = function(markButtone){
+    //     markAsDoneFN(this)
+    // };
+    var board = obj.closest(".board");
+    var ul = board.children[2];
+    var li = document.createElement("li");
+    li.appendChild(document.createTextNode(document.getElementById("task_name").value));
+    li.appendChild(markButtone);
+    ul.appendChild(li);  
+    document.getElementById("task_name").value = "";
+    // console.log(board.children[2]);
+}
+
+
+function addNewBoard(){
+    closeModel("toDoModelBoard");
+    var data = document.getElementById("board_clone").innerHTML;
+    var title = document.getElementById("baord_name").value;
+    if(title==""){
+        alert("Please Enter Name")
+        return false;
     }
-    tasklist.push(tempObj);
-    console.log(tasklist);
-    addTaskOnScreen();
+    data= data.replace("{{baord_title_value}}",title);    
+    document.getElementsByClassName("contener")[0].innerHTML=document.getElementsByClassName("contener")[0].innerHTML+data;    
+    document.getElementById("baord_name").value = "";
+    document.getElementById("noitem").remove();
+    
 }
-function addTaskOnScreen(){
-    const element=document.createElement("div");
-    element.setAttribute("class","child");
-    element.innerText=tasklist[tasklist.length-1].taskName;
-    const parentElement=document.getElementById("firstparent");
-    parentElement.appendChild(element);
-    const horiline=document.createElement("hr");
-    horiline.setAttribute("class","line");
-    element.appendChild(horiline);
-    const delIcon=document.createElement("i");
-    delIcon.setAttribute("class","fa fa-trash deleteIcon");
-    element.appendChild(delIcon);
-    const addIcon=document.createElement("i");
-    addIcon.setAttribute("class","fa-solid fa-circle-plus addIcon");
-    element.appendChild(addIcon);
-// #######################################################
-// card1 code
-    let card1=document.getElementById("card1");
-    card1.style.display="none";
-    parentElement.style.filter="blur(0px)";
-    const task2=document.getElementById("task2");
-    task2.style.display="none";
-// #######################################################
-// card2 code
-    let card2=document.getElementById('card2');
-    addIcon.addEventListener('click',function(){
-        card2.style.display="block";
-        parentElement.style.filter="blur(12px)";
-    })
-
-
-
-    const secondCard=document.createElement("div");
-    element.appendChild(secondCard);
-
-    const btn=document.getElementById("btn");
-    const name1=document.getElementById("name1");
-   
-
-    btn.addEventListener('click',function(){
-        parentElement.style.filter="blur(0px)";
-        card2.style.display="none";
-        let paragraph=document.createElement('p');
-        paragraph.classList.add('paragraph-styling');
-        secondCard.appendChild(paragraph);
-        paragraph.innerText=name1.value;
-        name1.value="";
-
-        let markIcon=document.createElement("button");
-        markIcon.setAttribute("id","markIcon");
-        markIcon.innerHTML="Mark Done";
-        markIcon.style.backgroundColor="blue";
-        markIcon.style.color="white";
-        markIcon.style.width="100px";
-        markIcon.style.height="25px";
-        markIcon.style.textAlign="center";
-        markIcon.style.borderRadius="5px";
-        markIcon.style.fontSize="15px";
-        markIcon.style.padding="4px";
-        secondCard.appendChild(markIcon);
-       
-        markIcon.addEventListener('click',function(){
-            paragraph.style.textDecoration="line-through";
-            paragraph.style.color="red";
-            markIcon.style.display="none";
-        })   
-       
-    })
-
+function markAsDoneFN(obj){
+    if(obj.innerHTML=="Done"){
+        obj.innerHTML="Mark as done";
+    }else{
+        obj.innerHTML="Done";
+    }
+    obj.closest("li").classList.toggle("checked");    
 }
-
-
-
-function closeTask(){
-    let card1=document.getElementById("card1");
-    const parentElement=document.getElementById("firstparent");
-    card1.style.display="none";
-    parentElement.style.filter="blur(0px)";
+function showOnlyBoard(obj){
+    document.getElementById("head_task_title").innerHTML=obj.innerHTML;
+    obj.closest("div").classList.toggle("onlyOne");
+    var baord = document.getElementById("div-1").children;
+    for(var i = 0 ; i < baord.length;i++){
+    if(document.getElementById("div-1").children[i].classList.contains("onlyOne")){
+            
+        }else{
+            document.getElementById("div-1").children[i].style.display = "none";
+        }
+    }
+    // baord
+    // document.getElementById("details-div").innerHTML =obj.closest(".board").innerHTML;    
+    taskOBJ = obj.closest(".board");
+    // document.getElementById("overview").style.display = "none";
+    document.getElementById("topheader").style.display = "none";
+    // document.getElementById("details").style.display = "block";    
+    document.getElementById("topheadertwo").style.display = "flex";
+    document.getElementsByClassName("contener")[0].style.justifyContent = "center";
+    // justify-content: space-between;
+    // center
 }
-function closeTask_1(){
-    let card2=document.getElementById("card2");
-    const parentElement=document.getElementById("firstparent");
-    card2.style.display="none";
-     parentElement.style.filter="blur(0px)";
+function backClick(){
+    document.getElementById("overview").style.display = "block";
+    document.getElementById("topheader").style.display = "flex";
+    document.getElementById("topheadertwo").style.display = "none";
+    // document.getElementById("details").style.display = "none";    
+
+
+    var baord = document.getElementById("div-1").children;
+    for(var i = 0 ; i < baord.length;i++){
+    if(document.getElementById("div-1").children[i].classList.contains("onlyOne")){
+        document.getElementById("div-1").children[i].classList.toggle("onlyOne");
+
+        }else{
+            document.getElementById("div-1").children[i].style.display = "block";
+        }
+    }
+    document.getElementsByClassName("contener")[0].style.justifyContent = "space-between";
+ 
 }
