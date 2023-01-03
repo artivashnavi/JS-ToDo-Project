@@ -1,43 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JS-ToDo_Project</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='todo.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Todo App</title>
 </head>
-<body>
-<div class="container">
-      <span id="task1">Tasks</span>
-      <span id="list1">List</span> 
-      <div id="task2">No Item in the todo list</div>
+<body style="background-color: black;">
+    <span id="topheader">
+        <h1 style="color:white;font-size:35px"> Tasks  List</h1>
+        <h3 style="color:white;font-size:30px" id="myBtn">
+            <i class="fa fa-plus-circle" style="color: #01b5ff;" id="p"></i> Add New </h3>
+        
+    </span>
+   
 
-      <a href="#" class="plus">
-      <i class="fa-solid fa-circle-plus"   onclick="addCard()"></i> Add Item</a> 
-      <div id="firstparent"></div> 
-  </div>
+    <span id="topheadertwo" style="display: none;">
+        <h2 style="color:white" onclick="backClick()"> 
+            <i class="fa fa-arrow-circle-left" style="color: #01b5ff;"></i> Back</h2>
+        <h2 style="color:orangered;font-size: 45px;" id="head_task_title">Task Title</h2>
+        <h2 style="color:white" id="taskBtn" onclick="showTaskModalOnly()">
+            <i class="fa fa-plus-circle" style="color: #01b5ff;"></i> Add New </h2>
+        
+    </span>
 
-  <div id="card1">
-    <h3>Add New List</h3>
-    <label for="name"></label>
-    <input type="text" id="name" value=""><br><br>
-    <button onclick="addTask()" id="b1">Add</button>
-    <button onclick="closeTask()" id="b2">Close</button>
-  </div>
+    <span id="overview">
+        <div class="contener" id="div-1">
+            <p id="noitem" style="color: wheat; font-size: 25px;margin-left:30px">No items in todo list</p>
+    </div>
+    </span>
 
-  <div id="card2">
-    <h3>Add New Item</h3>
-    <label for="name1"></label>
-    <input type="text" id="name1" value=""><br><br>
-    <button id="btn" class="b1">Add</button>
-    <button onclick="closeTask_1()" class="b2">Close</button>
-  </div> 
+        <span id="details">
+            <div class="contener" style="justify-content: center;">
+                <div id="details-div" class="board"></div>
+            </div>
+        </span>
 
- 
 
-   <script src="index.js"></script> 
-    
+
+            <div id="toDoModelBoard" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <span class="close" onclick="closeModel('toDoModelBoard')">&times;</span>
+                  <p>Add New list</p>
+                  <input type="text" id="baord_name">
+                  <button onclick="addNewBoard()" >Add</button>
+                  <button onclick="closeModel('toDoModelBoard')">Close</button>
+
+                </div>              
+              </div>
+
+            <div id="toDoModelTask" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <span class="close " onclick="closeModel('toDoModelTask')">&times;</span>
+                  <p>Add New Task</p>
+                  <input type="text" id="task_name">
+                  <button onclick="addNewTaskModalButton()" >Add</button>
+                  <button onclick="closeModel('toDoModelTask')" >Close</button>
+                </div>              
+              </div>
 </body>
+
+<div style="display: none;" id="board_clone">
+<div class="board">
+    <h1 class="border-title" onclick="showOnlyBoard(this)">{{baord_title_value}}</h1>
+    <hr>
+    <ul class="tasklist">
+        
+    </ul>
+    <div class="border-footer">
+    <i class="fa fa-trash-o" onclick="removeBoard(this)"></i>
+    <i class="fa fa-plus"  onclick="showTaskModal(this)"></i>
+    </div>
+</div>
+</div>
+<script src='todo.js'></script>
 </html>
